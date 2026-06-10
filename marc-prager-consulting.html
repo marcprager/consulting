@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marc Prager — AI Consulting</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0f1117;
+    --dark: #181c27;
+    --accent: #4f6ef7;
+    --accent-light: #7b93fa;
+    --white: #ffffff;
+    --gray: rgba(255,255,255,0.55);
+    --gray-dim: rgba(255,255,255,0.3);
+    --border: rgba(255,255,255,0.1);
+    --light-bg: #f7f7f5;
+    --light-text: #1a1a1a;
+    --light-muted: #666;
+    --light-border: #e5e5e2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--white);
+    background: var(--black);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 60px;
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    color: var(--gray);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: var(--white) !important;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 18px;
+    border-radius: 100px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent-light) !important; }
+
+  .nav-mobile-cta { display: none; }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 140px 5% 80px;
+    max-width: 780px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent-light);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--gray);
+    line-height: 1.65;
+    max-width: 580px;
+    margin-bottom: 36px;
+  }
+
+  .hero-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px 28px;
+    border-radius: 100px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-block;
+    border: 1px solid var(--border);
+    color: var(--gray);
+    font-size: 15px;
+    padding: 13px 28px;
+    border-radius: 100px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.35); color: var(--white); }
+
+  /* ── STATS ── */
+  #stats {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .stat {
+    flex: 1;
+    min-width: 140px;
+    padding: 8px 24px 8px 0;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; padding-right: 0; }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent-light);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--gray-dim);
+    margin-top: 4px;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 80px 5%; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: clamp(24px, 3.5vw, 34px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    margin-bottom: 16px;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--black); }
+
+  .services-intro {
+    max-width: 560px;
+    color: var(--gray);
+    margin-bottom: 48px;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+  }
+
+  .service-card {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .service-card:hover { border-color: rgba(79,110,247,0.5); }
+
+  .service-icon {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+
+  .service-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* ── PORTFOLIO ── */
+  #portfolio {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .portfolio-inner {
+    max-width: 700px;
+  }
+
+  .portfolio-desc {
+    font-size: 17px;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+
+  .portfolio-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+
+  .portfolio-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .portfolio-item strong {
+    display: block;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 2px;
+    font-size: 14px;
+  }
+
+  .portfolio-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 13px 28px;
+    border-radius: 100px;
+    transition: background 0.2s;
+  }
+  .portfolio-link:hover { background: var(--accent-light); }
+
+  /* ── ABOUT ── */
+  #about { background: var(--black); }
+
+  .about-inner {
+    max-width: 620px;
+  }
+
+  .about-body {
+    font-size: 17px;
+    color: var(--gray);
+    line-height: 1.75;
+  }
+
+  .about-body p + p { margin-top: 18px; }
+
+  .about-body strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-inner {
+    max-width: 560px;
+  }
+
+  .contact-desc {
+    font-size: 17px;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+
+  .contact-email {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent-light);
+    border-bottom: 1px solid rgba(123,147,250,0.3);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .contact-email:hover { border-color: var(--accent-light); }
+
+  .contact-note {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--gray-dim);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 24px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-name {
+    font-size: 14px;
+    color: var(--gray-dim);
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--accent);
+    transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--accent-light); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .nav-mobile-cta {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 16px;
+      border-radius: 100px;
+    }
+
+    #hero { padding: 100px 20px 60px; }
+    section { padding: 60px 20px; }
+    #stats { padding: 24px 20px; gap: 0; }
+    .stat { min-width: 120px; padding: 8px 16px 8px 0; }
+    .stat:last-child { padding-right: 0; }
+
+    .hero-btns { flex-direction: column; align-items: flex-start; }
+    .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+
+    footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-name">Marc Prager</span>
+  <div class="nav-links">
+    <a href="#services">Work</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#about">About</a>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </div>
+  <a href="#contact" class="nav-mobile-cta">Get in touch</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="eyebrow">AI consulting · People &amp; L&amp;D</div>
+  <h1>I build AI-powered tools.<br><em>No engineers required.</em></h1>
+  <p class="hero-sub">
+    One person. Real tools. Deployed to real employees and in active use.
+    I help People and L&D teams do the same — find the right problems,
+    build the right tools, and actually ship them.
+  </p>
+  <div class="hero-btns">
+    <a href="#portfolio" class="btn-primary">See what I've built</a>
+    <a href="#contact" class="btn-ghost">Work with me</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">Tools shipped</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Lines of code written</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Person team</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">Live</div>
+    <div class="stat-label">All tools deployed</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I do</div>
+  <h2>From problem to working tool,<br>without a dev team</h2>
+  <p class="services-intro">
+    Most organizations have problems that AI could solve — and no clear path to building the tool.
+    I close that gap. You bring the problem. I bring the build.
+  </p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🛠</div>
+      <div class="service-title">Custom tool builds</div>
+      <div class="service-desc">
+        Interactive learning modules, manager simulators, feedback dashboards, automated workflows — the tool you've been describing in meetings but haven't shipped yet.
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🗺</div>
+      <div class="service-title">AI strategy for People teams</div>
+      <div class="service-desc">
+        Where to start, what to automate, how to get your team actually using it. Built for HR and L&D leaders who are being asked to "do something with AI" and need a real roadmap.
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧠</div>
+      <div class="service-title">Workshops</div>
+      <div class="service-desc">
+        How to work with AI the way I do: with a real problem, not a tutorial. Teams leave with something built, not just a slide deck about what's possible.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-inner">
+    <div class="section-label">Proof of work</div>
+    <h2>Not demos. Deployed tools.</h2>
+    <p class="portfolio-desc">
+      Everything in the portfolio was built for Chime's People Development function — and is live, in active use by real employees. This is what one person can build with AI tools and the right approach.
+    </p>
+    <div class="portfolio-items">
+      <div class="portfolio-item">
+        <strong>Manager Conversation Hub</strong>
+        Web app for practicing hard conversations — 5 scenario types, live coaching
+      </div>
+      <div class="portfolio-item">
+        <strong>Director Leadership Simulator</strong>
+        M3 framework assessment, branching scenarios, exportable results
+      </div>
+      <div class="portfolio-item">
+        <strong>Feedback Culture Command Center</strong>
+        Live dashboard + automated weekly Slack digest to 14 People Partners
+      </div>
+      <div class="portfolio-item">
+        <strong>Anytime Feedback Module</strong>
+        SCORM e-learning deployed company-wide, built with a custom rules engine
+      </div>
+      <div class="portfolio-item">
+        <strong>People Dev Plugin</strong>
+        5 AI-powered skills for Chime's internal Claude: feedback coach, self-eval, calibration prep, and more
+      </div>
+      <div class="portfolio-item">
+        <strong>COO Forum Deck</strong>
+        Research-backed, story-driven 10-slide presentation built in Cowork
+      </div>
+    </div>
+    <a href="https://marcprager.github.io/cowork-portfolio/" target="_blank" class="portfolio-link">
+      View full portfolio →
+    </a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="section-label">About</div>
+    <h2>Not technical. That's the point.</h2>
+    <div class="about-body">
+      <p>
+        I lead People Development at Chime, where I'm a team of one responsible for manager development, feedback culture, and IC growth. A couple of years ago I started building AI tools — not because I had an engineering background, but because I had real problems to solve.
+      </p>
+      <p>
+        What came out of that: <strong>production tools, not prototypes.</strong> Interactive learning experiences, automated systems, conversation simulators, dashboards — all built without writing a line of code, all deployed to real employees, all still running.
+      </p>
+      <p>
+        I work with HR and L&D leaders who are sitting on good problems but don't have a clear path from "we should use AI for this" to "here's the working tool." That's the gap I close.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label">Get in touch</div>
+    <h2>Let's talk about<br>what you're trying to build</h2>
+    <p class="contact-desc">
+      No intake form. No deck to fill out. Send me a note with the problem you're sitting on — or just say hello.
+    </p>
+    <a href="mailto:marcprager@gmail.com" class="contact-email">marcprager@gmail.com</a>
+    <p class="contact-note">Prefer a call? Mention it in your email and I'll send a calendar link.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Marc Prager · AI Consulting</span>
+  <a href="https://marcprager.github.io/cowork-portfolio/" target="_blank" class="footer-link">View portfolio →</a>
+</footer>
+
+</body>
+</html>
